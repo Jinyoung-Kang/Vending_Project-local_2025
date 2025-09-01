@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>자판기 통합 관리 시스템</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        h1, h2 { text-align: center; }
+        .container { display: flex; justify-content: space-around; }
+        .panel { border: 1px solid #ccc; padding: 20px; width: 45%; border-radius: 8px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 4px; white-space: pre-wrap; }
+        button { padding: 10px 15px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🔒 자판기 통합 관리 시스템</h1>
+    <hr>
+    <div class="container">
+        <div class="panel">
+            <h2>총 매출 현황</h2>
+            <button onclick="loadSalesData()">매출 데이터 불러오기</button>
+            <pre id="sales-data">데이터를 불러오세요.</pre>
+        </div>
+        <div class="panel">
+            <h2>전체 재고 현황</h2>
+            <button onclick="loadInventoryData()">재고 데이터 불러오기</button>
+            <pre id="inventory-data">데이터를 불러오세요.</pre>
+        </div>
+    </div>
+
+    <script>
+        async function loadSalesData() {
+            try {
+                const response = await fetch('/api/sales');
+                const data = await response.json();
+                document.getElementById('sales-data').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('sales-data').textContent = '데이터를 불러오는 데 실패했습니다: ' + error;
+            }
+        }
+
+        async function loadInventoryData() {
+            try {
+                const response = await fetch('/api/inventory');
+                const data = await response.json();
+                document.getElementById('inventory-data').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('inventory-data').textContent = '데이터를 불러오는 데 실패했습니다: ' + error;
+            }
+        }
+    </script>
+</body>
+</html>
